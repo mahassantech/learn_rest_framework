@@ -28,3 +28,11 @@ class UpdateView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
     
+    def patch(self,request,pk):
+        books=Book.objects.get(pk=pk)
+        serializer=BookSerializer(books,data=request.data,partial=True)
+        
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
