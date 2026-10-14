@@ -4,8 +4,12 @@ from rest_framework.response import Response
 from .models import Book
 from .serializers import BookSerializer
 from rest_framework import status
+from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated
+
 
 class BookView(APIView):
+    permission_classes=[IsAuthenticated]
     def get(self,request):
         books=Book.objects.all()
         serializer=BookSerializer(books,many=True)
@@ -20,7 +24,7 @@ class BookView(APIView):
 
 class UpdateView(APIView):
     def put(self,request,pk):
-        books=Book.objects.get(pk=pk)
+        books=get_object_or_404(Book,pk=pk)
         serializer=BookSerializer(books,data=request.data)
         
         if serializer.is_valid():
