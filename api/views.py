@@ -9,7 +9,7 @@ from rest_framework.permissions import IsAuthenticated
 
 
 class BookView(APIView):
-    permission_classes=[IsAuthenticated]
+    permission_classes = [IsAuthenticated]
     def get(self,request):
         books=Book.objects.all()
         serializer=BookSerializer(books,many=True)
